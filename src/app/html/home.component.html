@@ -1,0 +1,74 @@
+<div class="home-slider">
+  <ngb-carousel>
+    <ng-template ngbSlide>
+      <img src="assets/images/slider1.jpg" class="mainSlider">
+    </ng-template>
+    <ng-template ngbSlide>
+      <img src="assets/images/slider2.jpg" class="mainSlider">
+    </ng-template>
+    <ng-template ngbSlide>
+      <img src="assets/images/slider3.jpg" class="mainSlider">
+    </ng-template>
+  </ngb-carousel>
+  <!-- .slides -->
+</div>
+<!-- .home-slider -->
+
+<main class="main-content">
+  <div class="container">
+    <div class="page">
+      <section>
+        <header>
+          <h2 class="section-title">Movies</h2>
+          <a [routerLink]="['/list', 'all_movies']" class="all">Show All</a>
+        </header>
+
+        <div class="product-list">
+          
+          <div *ngFor="let movie of movies" class="product">
+            <div class="inner-product">
+              <div class="figure-image">
+                <a [routerLink]="['/movie', movie.title]"><img src="assets/images/ww.jpg" alt="Game 1"></a>
+              </div>
+              <h3 class="product-title"><a href="#">{{movie.title}}</a></h3>
+              <small class="price"><ngb-rating [(rate)]="movie.rating" [readonly]="true"></ngb-rating></small>
+              <a href="#" class="button muted">Read Details</a>
+            </div>
+          </div>
+          <!-- .product -->
+
+        </div>
+        <!-- .product-list -->
+
+      </section>
+
+      <section>
+        <header>
+          <h2 class="section-title">TV Series</h2>
+          <a [routerLink]="['/list', 'tv_series']" class="all">Show All</a>
+        </header>
+
+        <div class="product-list">
+
+          <div *ngFor="let tv of series" class="product">
+            <div class="inner-product">
+              <div class="figure-image">
+                <a [routerLink]="['/series', tv.title]"><img src="assets/images/ww.jpg" alt="Game 1"></a>
+              </div>
+              <h3 class="product-title"><a href="#">{{tv.title}}</a></h3>
+              <small class="price"><ngb-rating [(rate)]="tv.rating
+              " [readonly]="true"></ngb-rating></small>
+              <a href="#" class="button muted">Read Details</a>
+            </div>
+          </div>
+          <!-- .product -->
+
+        </div>
+        <!-- .product-list -->
+
+      </section>
+    </div>
+  </div>
+  <!-- .container -->
+</main>
+<!-- .main-content -->
