@@ -1,6 +1,8 @@
 export class Tiles {
-  title: string;
-  rating: number;
+  MovieID: string;
+  rating: {
+      Rating:number 
+  };
   image: string;
 }
 

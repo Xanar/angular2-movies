@@ -1,1 +1,60 @@
-<h1>{{movieId}}</h1>
+<div class="breadcrumbs">
+  <div class="container">
+    <a routerLink="/home">Home</a>
+    <a *ngIf="movieDetails" [routerLink]="['/list', movieDetails?.Genres[0]]">{{movieDetails?.Genres[0]}}</a>
+    <a *ngIf="!movieDetails">{{movieDetails?.Genres[0]}}</a>
+    <span>{{movieDetails?.MovieID}}</span>
+  </div>
+</div>
+<main class="main-content">
+  <div class="container">
+    <div class="page">
+
+      <div class="entry-content">
+        <div class="row movieDetails">
+          <div class="col-sm-6 col-md-4">
+            <div class="product-images">
+              <figure class="large-image">
+                <a href="assets/images/ww.jpg"><img src="assets/images/ww.jpg" alt=""></a>
+              </figure>
+              <div class="thumbnails">
+                <a href="assets/images/ww.jpg"><img src="assets/images/ww.jpg" alt=""></a>
+                <a href="assets/images/ww.jpg"><img src="assets/images/ww.jpg" alt=""></a>
+                <a href="assets/images/ww.jpg"><img src="assets/images/ww.jpg" alt=""></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-md-8">
+            <h2 class="entry-title">{{movieDetails?.MovieID}}</h2>
+            <ul>
+              <li><strong>Rating:</strong>
+                <small class="price">
+                  <ng-template #t let-fill="fill">
+                    <span *ngIf="fill === 100" class="star full">★</span>
+                    <span *ngIf="fill === 0" class="star">★</span>
+                    <span *ngIf="fill < 100 && fill > 0" class="star">
+                      <span class="half" [style.width.%]="fill">★</span>★
+                    </span>
+                  </ng-template>                
+                  <ngb-rating [(rate)]="rating" [starTemplate]="t" [readonly]="true"></ngb-rating>
+                </small>
+              </li>
+              <li><strong>Premiere:  {{movieDetails?.ReleaseYear}}</strong></li>
+              <li><strong>Length:  {{movieDetails?.RunningTime}} minutes</strong></li>
+              <li><strong>Genres:  {{movieDetails?.Genres}}</strong></li>
+            </ul>
+            <ul>
+              <li><strong>Director:</strong></li>
+              <li><strong>Cast:</strong></li>
+            </ul>
+
+            <p>{{this?.movieSynopsis && movieSynopsis[0]?.DocText}}</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- .container -->
+</main>
+<!-- .main-content -->

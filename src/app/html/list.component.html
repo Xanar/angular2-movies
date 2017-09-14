@@ -36,20 +36,31 @@
         </div>
         <!-- .filter -->
         <div class="pagination">
-          <ngb-pagination [collectionSize]="80" [pageSize]="8"  [maxSize]="5" aria-label="Default pagination"></ngb-pagination>
+          <ngb-pagination [collectionSize]="80" [pageSize]="8" [maxSize]="5" aria-label="Default pagination"></ngb-pagination>
         </div>
         <!-- .pagination -->
       </div>
       <!-- .filter-bar -->
 
       <div class="product-list">
-        <div *ngFor="let movie of movies" class="product">
+        <div *ngFor="let tile of tiles" class="product">
           <div class="inner-product">
             <div class="figure-image">
-              <a href="single.html"><img src="assets/images/ww.jpg" alt="Game 1"></a>
+              <div *ngIf="genre=='TV Series'; then tv else movie"></div>
+              <ng-template #tv><a [routerLink]="['/series', tile.MovieID]"><img src="assets/images/ww.jpg" alt="Game 1"></a></ng-template>
+              <ng-template #movie><a [routerLink]="['/movie', tile.MovieID]"><img src="assets/images/ww.jpg" alt="Game 1"></a></ng-template>
             </div>
-            <h3 class="product-title"><a href="#">{{movie.title}}</a></h3>
-            <small class="price"><ngb-rating [(rate)]="movie.rating" [readonly]="true"></ngb-rating></small>
+            <h3 class="product-title"><a href="#">{{tile.MovieID}}</a></h3>
+            <small class="price">
+              <ng-template #t let-fill="fill">
+                    <span *ngIf="fill === 100" class="star full">★</span>
+                    <span *ngIf="fill === 0" class="star">★</span>
+                    <span *ngIf="fill < 100 && fill > 0" class="star">
+                      <span class="half" [style.width.%]="fill">★</span>★
+                    </span>
+              </ng-template>   
+              <ngb-rating [(rate)]="tile.Rating.Rating" [starTemplate]="t" [readonly]="true"></ngb-rating>
+            </small>
             <a href="#" class="button muted">Read Details</a>
           </div>
         </div>
@@ -57,7 +68,7 @@
       </div>
       <div class="pagination-bar">
         <div class="pagination">
-          <ngb-pagination [collectionSize]="80" [pageSize]="8"  [maxSize]="5" aria-label="Default pagination"></ngb-pagination>
+          <ngb-pagination [collectionSize]="80" [pageSize]="8" [maxSize]="5" aria-label="Default pagination"></ngb-pagination>
         </div>
         <!-- .pagination -->
       </div>

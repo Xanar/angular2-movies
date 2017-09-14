@@ -1,5 +1,6 @@
 <div id="site-content">
   <div class="site-header">
+    <div id="particles-js"></div>
     <div class="container">
       <a routerLink="/home" id="branding">
 						<img src="assets/images/custom_logo.png" style="width: 65px;" alt="" class="logo">
@@ -28,8 +29,21 @@
         </ul>
         <!-- .menu -->
         <div class="search-form">
+          <div class="btn-group" ngbRadioGroup name="radioBasic" [(ngModel)]="searchType"> 
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" [value]="'movie'"> Movies
+            </label>
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" [value]="'tv'"> TV Series
+            </label>
+          </div>
           <label><img src="assets/images/icon-search.png"></label>
-          <input type="text" placeholder="Search...">
+          <input type="text" placeholder="Search..." (input)="searchOptions($event)" #search>
+          <div ngbDropdown class="d-inline-block dropDwn" #dropDown="ngbDropdown">
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic2" id="searchDropdown" class="customScroll">
+              <li class="dropdown-item" *ngFor="let sval of searchValue" [routerLink]="['/movie', sval.MovieID]" (click)="search.value='';" [attr.search-value]="sval.MovieID">{{sval.MovieID}}</li>
+            </div>
+          </div>
         </div>
         <!-- .search-form -->
 
@@ -61,29 +75,19 @@
         <!-- column -->
         <div class="col-md-2">
           <div class="widget">
-            <h3 class="widget-title">Consumer Service</h3>
-            <ul class="no-bullet">
-              <li><a href="#">Secure</a></li>
-              <li><a href="#">Shipping &amp; Returns</a></li>
-              <li><a href="#">Shipping</a></li>
-              <li><a href="#">Orders &amp; Returns</a></li>
-              <li><a href="#">Group Sales</a></li>
-            </ul>
-          </div>
-          <!-- .widget -->
-        </div>
-        <!-- column -->
-        <div class="col-md-2">
-          <div class="widget">
             <h3 class="widget-title">My Account</h3>
             <ul class="no-bullet">
               <li><a href="#">Login/Register</a></li>
               <li><a href="#">Settings</a></li>
-              <li><a href="#">Cart</a></li>
-              <li><a href="#">Order Tracking</a></li>
               <li><a href="#">Logout</a></li>
             </ul>
           </div>
+
+          <!-- .widget -->
+        </div>
+        <!-- column -->
+        <div class="col-md-2">
+
           <!-- .widget -->
         </div>
         <!-- column -->
@@ -102,7 +106,7 @@
       <!-- .row -->
 
       <div class="colophon">
-        <div class="copy">Copyright 2014 Company name. Designed by Themezy. All rights reserved.</div>
+        <div class="copy">Copyright © 2017 Movies 'n' Chill. All rights reserved.</div>
         <div class="social-links square">
           <a href="#"><i class="fa fa-facebook"></i></a>
           <a href="#"><i class="fa fa-twitter"></i></a>

@@ -10,6 +10,11 @@ export class CustomUrlSerializer implements UrlSerializer {
         let dus = new DefaultUrlSerializer(),
             path = dus.serialize(tree);
         // use your regex to replace as per your requirement.
-        return path.replace(/%20/g,'_');
+        path=path.replace(/%5B/g,'[');
+        path=path.replace(/%5D/g,']');
+        path=path.replace(/%20/g,'_');
+        path=path.replace(/\(/g,'[');
+        path=path.replace(/\)/g,']');
+        return path;
     }
 }

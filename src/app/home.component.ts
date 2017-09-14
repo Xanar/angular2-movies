@@ -1,39 +1,34 @@
 import { Component } from '@angular/core';
 import { Http, Response } from '@angular/http';
+import {ImdbService} from './imdb.services'
 import 'rxjs/add/operator/map';
 
 import { Tiles } from './objects';
 
-const MOVIES: Tiles[] = [
-  { title: "Wonder Woman (2017)", rating: 9.5, image: '' },
-  { title: "The Mummy (2017)", rating: 5.5, image: '' },
-  { title: "50 Shades Darker", rating: 7.5, image: '' },
-  { title: "Annabelle: Creation", rating: 8.5, image: '' }
-];
+// const MOVIES: Tiles[] = [
+//   { MovieID: "Wonder Woman (2017)", rating: { Rating: 9.5 }, image: '' },
+//   { MovieID: "The Mummy (2017)", rating: { Rating: 5.5 }, image: '' },
+//   { MovieID: "50 Shades Darker", rating: { Rating: 7.5 }, image: '' },
+//   { MovieID: "Annabelle: Creation", rating: { Rating: 8.5 }, image: '' }
+// ];
 
 const SERIES: Tiles[] = [
-  { title: "Game Of Thrones", rating: 9.5, image: '' },
-  { title: "The Flash", rating: 7.5, image: '' },
-  { title: "Narcos", rating: 8.5, image: '' },
-  { title: "Supernatural", rating: 8.0, image: '' }
+  { MovieID: "Game Of Thrones", rating: { Rating: 9.5 }, image: '' },
+  { MovieID: "The Flash", rating: { Rating: 7.5 }, image: '' },
+  { MovieID: "Narcos", rating: { Rating: 8.5 }, image: '' },
+  { MovieID: "Supernatural", rating: { Rating: 8.0 }, image: '' }
 ];
 
 @Component({
   selector: 'app-home',
-  templateUrl: './html/home.component.html'
+  templateUrl: './html/home.component.html',
+  providers:[ImdbService]
 })
 export class HomeComponent {
-  movies = MOVIES;
+  movies: any;
   series = SERIES;
 
-  // constructor(private http: Http) {
-  //   http.get('https://movies.herokuapp.com/movies')
-  //     .map(res => res.json())
-  //     .subscribe(response => this.movies = response);
-  //    
-  //   http.get('https://movies.herokuapp.com/series')
-  //     .map(res => res.json())
-  //     .subscribe(repsonse => this.series = response);
-  // }
-
+  constructor(private imdb: ImdbService ){
+    imdb.getMovies('Action',1,4).subscribe(data => {this.movies = data});
+  }
 }
