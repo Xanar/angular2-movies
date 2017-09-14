@@ -29,6 +29,15 @@ export class HomeComponent {
   series = SERIES;
 
   constructor(private imdb: ImdbService ){
-    imdb.getMovies('Action',1,4).subscribe(data => {this.movies = data});
+    imdb.getMovies('Action',1,4).subscribe(data => {this.movies = data; this.getPosters(); });
+  }
+
+  getPosters(){
+    this.movies.forEach(element => {
+      element.image='assets/images/ww.jpg';
+    });
+    this.movies.forEach(element => {
+      this.imdb.getMoviePoster(element.MovieID,'desktop').subscribe(data => {element.image = data.image_url;});      
+    });
   }
 }

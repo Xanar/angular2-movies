@@ -22,7 +22,7 @@ import { Tiles } from './objects';
   providers: [ImdbService]
 })
 export class ListComponent {
-  tiles :any;
+  tiles: any;
   genre = '';
   constructor(private route: ActivatedRoute, private imdb: ImdbService) {
   }
@@ -31,14 +31,22 @@ export class ListComponent {
     this.route.params.subscribe(params => {
       if (params['genre'].indexOf('all_movies') != -1) {
         this.genre = 'All Movies';
-        this.imdb.getMovies('Action', 1, 8).subscribe(data => { this.tiles = data });
+        this.imdb.getMovies('Action', 1, 8).subscribe(data => { this.tiles = data, this.getPosters(); });
       } else if (params['genre'].indexOf('tv_series') != -1) {
         this.genre = 'TV Series';
-        this.imdb.getMovies('Action', 1, 8).subscribe(data => { this.tiles = data });
+        this.imdb.getMovies('Action', 1, 8).subscribe(data => { this.tiles = data, this.getPosters(); });
       } else {
         this.genre = params['genre'].charAt(0).toUpperCase() + params['genre'].slice(1);;
-        this.imdb.getMovies(this.genre, 1, 8).subscribe(data => { this.tiles = data });
+        this.imdb.getMovies(this.genre, 1, 8).subscribe(data => { this.tiles = data, this.getPosters(); });
       }
+    });
+  }
+  getPosters() {
+    this.tiles.forEach(element => {
+      element.image = 'assets/images/ww.jpg';
+    });
+    this.tiles.forEach(element => {
+      this.imdb.getMoviePoster(element.MovieID, 'desktop').subscribe(data => { element.image = data.image_url; });
     });
   }
 

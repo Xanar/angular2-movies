@@ -28,9 +28,9 @@
           <div *ngFor="let movie of movies" class="product">
             <div class="inner-product">
               <div class="figure-image">
-                <a [routerLink]="['/movie', movie.MovieID]"><img src="assets/images/ww.jpg" alt="Game 1"></a>
+                <a [routerLink]="['/movie', movie.MovieID]"><img src="{{movie.image}}" alt="Game 1"></a>
               </div>
-              <h3 class="product-title"><a href="#">{{movie.MovieID}}</a></h3>
+              <h3 class="product-title"><a href="#">{{movie?.MovieID}}</a></h3>
               <small class="price">
                 <ng-template #t let-fill="fill">
                       <span *ngIf="fill === 100" class="star full">★</span>

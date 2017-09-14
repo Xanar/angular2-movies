@@ -33,13 +33,17 @@ export class ImdbService {
 
   search(terms: Observable<string>, searchType: Observable<string>, limit) {
     let type;
-    searchType.subscribe(stype => type=stype);
+    searchType.subscribe(stype => type = stype);
     return terms.debounceTime(1000)
       .distinctUntilChanged()
       .switchMap(term => this.getSearchKeys(term, type, limit));
   }
   getSearchKeys(searchValue, type, limit) {
     return this.http.get(this._baseUrl + '/search/' + type + '?name=' + searchValue + '&limit=' + limit)
+      .map((res: Response) => res.json());
+  }
+  getMoviePoster(movieId, device) {
+    return this.http.get(this._baseUrl + '/movie/' + movieId + '/getMoviePoster?device=' + device)
       .map((res: Response) => res.json());
   }
 }

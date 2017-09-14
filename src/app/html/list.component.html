@@ -47,8 +47,8 @@
           <div class="inner-product">
             <div class="figure-image">
               <div *ngIf="genre=='TV Series'; then tv else movie"></div>
-              <ng-template #tv><a [routerLink]="['/series', tile.MovieID]"><img src="assets/images/ww.jpg" alt="Game 1"></a></ng-template>
-              <ng-template #movie><a [routerLink]="['/movie', tile.MovieID]"><img src="assets/images/ww.jpg" alt="Game 1"></a></ng-template>
+              <ng-template #tv><a [routerLink]="['/series', tile.MovieID]"><img src="{{tile?.image}}" alt="Game 1"></a></ng-template>
+              <ng-template #movie><a [routerLink]="['/movie', tile.MovieID]"><img src="{{tile?.image}}" alt="Game 1"></a></ng-template>
             </div>
             <h3 class="product-title"><a href="#">{{tile.MovieID}}</a></h3>
             <small class="price">
