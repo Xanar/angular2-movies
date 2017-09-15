@@ -165,6 +165,12 @@ li.dropdown-item:hover {
   left: 165px;
 }
 
+@media only screen and (max-width: 500px) {
+  .btn-group {
+    left: 60px;
+  }
+}
+
 .btn-group .btn-primary {
   font-size: 12px !important;
   padding: 3px !important;
@@ -187,4 +193,9 @@ li.dropdown-item:hover {
   display: inline-block;
   overflow: hidden;
   color: #45b77d;
+}
+
+.product-list .product .figure-image img {
+  min-height: 274px;
+  max-height: 400px;
 }

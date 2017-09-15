@@ -29,7 +29,7 @@
         </ul>
         <!-- .menu -->
         <div class="search-form">
-          <div class="btn-group" ngbRadioGroup name="radioBasic" [(ngModel)]="searchType"> 
+          <div class="btn-group" ngbRadioGroup name="radioBasic" [(ngModel)]="searchType">
             <label ngbButtonLabel class="btn-primary">
               <input ngbButton type="radio" [value]="'movie'"> Movies
             </label>
@@ -41,7 +41,8 @@
           <input type="text" placeholder="Search..." (input)="searchOptions($event)" #search>
           <div ngbDropdown class="d-inline-block dropDwn" #dropDown="ngbDropdown">
             <div ngbDropdownMenu aria-labelledby="dropdownBasic2" id="searchDropdown" class="customScroll">
-              <li class="dropdown-item" *ngFor="let sval of searchValue" [routerLink]="['/movie', sval.MovieID]" (click)="search.value='';" [attr.search-value]="sval.MovieID">{{sval.MovieID}}</li>
+              <li class="dropdown-item" *ngFor="let sval of searchValue" [routerLink]="['/movie', sval.MovieID]" (click)="search.value='';"
+                [attr.search-value]="sval.MovieID">{{sval.MovieID}}</li>
             </div>
           </div>
         </div>
@@ -122,3 +123,8 @@
   <!-- .site-footer -->
 
 </div>
+
+
+
+<!-- Movie / Tv Plot Modal -->
+<template ngbModalContainer></template>

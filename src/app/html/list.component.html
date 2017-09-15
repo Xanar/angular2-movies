@@ -47,10 +47,15 @@
           <div class="inner-product">
             <div class="figure-image">
               <div *ngIf="genre=='TV Series'; then tv else movie"></div>
-              <ng-template #tv><a [routerLink]="['/series', tile.MovieID]"><img src="{{tile?.image}}" alt="Game 1"></a></ng-template>
-              <ng-template #movie><a [routerLink]="['/movie', tile.MovieID]"><img src="{{tile?.image}}" alt="Game 1"></a></ng-template>
+              <ng-template #tv><a [routerLink]="['/series', tile.MovieID]"><img src="{{tile?.image}}" onError="this.src='assets/images/placeholder.png';" alt="Game 1"></a></ng-template>
+              <ng-template #movie><a [routerLink]="['/movie', tile.MovieID]"><img src="{{tile?.image}}" onError="this.src='assets/images/placeholder.png';" alt="Game 1"></a></ng-template>
             </div>
-            <h3 class="product-title"><a href="#">{{tile.MovieID}}</a></h3>
+            <h3 class="product-title">
+              <div *ngIf="genre=='TV Series'; then tv1 else movie1"></div>
+              <ng-template #tv1><a [routerLink]="['/series', tile.MovieID]">{{tile.MovieID}}</a></ng-template>
+              <ng-template #movie1><a [routerLink]="['/movie', tile.MovieID]">{{tile.MovieID}}</a></ng-template>
+            </h3>
+
             <small class="price">
               <ng-template #t let-fill="fill">
                     <span *ngIf="fill === 100" class="star full">★</span>
@@ -61,7 +66,9 @@
               </ng-template>   
               <ngb-rating [(rate)]="tile.Rating.Rating" [starTemplate]="t" [readonly]="true"></ngb-rating>
             </small>
-            <a href="#" class="button muted">Read Details</a>
+            <div *ngIf="genre=='TV Series'; then tv2 else movie2"></div>
+            <ng-template #tv2><a class="button muted">Read Details</a></ng-template>
+            <ng-template #movie2><a class="button muted" (click)='readMovieDetails(tile.MovieID)'>Read Details</a></ng-template>
           </div>
         </div>
         <!-- .product -->

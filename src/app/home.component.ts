@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import {ImdbService} from './imdb.services'
+import { ImdbService } from './imdb.services';
+import { PlotModalComponent } from './plot-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/map';
 
 import { Tiles } from './objects';
@@ -22,22 +24,43 @@ const SERIES: Tiles[] = [
 @Component({
   selector: 'app-home',
   templateUrl: './html/home.component.html',
-  providers:[ImdbService]
+  providers: [ImdbService]
 })
 export class HomeComponent {
   movies: any;
   series = SERIES;
 
-  constructor(private imdb: ImdbService ){
-    imdb.getMovies('Action',1,4).subscribe(data => {this.movies = data; this.getPosters(); });
+  constructor(private imdb: ImdbService, private modalService: NgbModal) {
+    imdb.getMovies('Action', 1, 4).subscribe(data => { this.movies = data; this.getPosters(); });
   }
 
-  getPosters(){
+  getPosters() {
     this.movies.forEach(element => {
-      element.image='assets/images/ww.jpg';
+      element.image = 'assets/images/placeholder.png';
     });
     this.movies.forEach(element => {
-      this.imdb.getMoviePoster(element.MovieID,'desktop').subscribe(data => {element.image = data.image_url;});      
+      this.imdb.getMoviePoster(element.MovieID, 'desktop').subscribe(data => { element.image = data.image_url; });
     });
   }
+
+  readMovieDetails(MovieID) {
+    const modalRef = this.modalService.open(PlotModalComponent);
+    modalRef.componentInstance.title = MovieID;
+    this.imdb.getMovieSynopsis(MovieID)
+      .subscribe(
+      data => {
+        modalRef.componentInstance.plot = data[0].DocText;
+      },
+      err => {
+        modalRef.componentInstance.plot = "Plot Not Available"
+      }
+      );
+  }
+
+  // readSeriesDetails(SeriesID) {
+  //   const modalRef = this.modalService.open(PlotModalComponent);
+  //   modalRef.componentInstance.title=SeriesID;
+  //   this.imdb.getSeriesSynopsis(SeriesID).subscribe(data => { modalRef.componentInstance.plot=data;});
+  // }
+
 }

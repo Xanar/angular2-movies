@@ -15,7 +15,7 @@ export class MovieComponent {
   movieSynopsis: any[];
   movieId: string;
   rating = 8.5;
-  moviePoster = 'assets/images/ww.jpg';
+  moviePoster = 'assets/images/placeholder.png';
 
   constructor(private route: ActivatedRoute, private imdb: ImdbService) { }
 
@@ -25,7 +25,7 @@ export class MovieComponent {
       this.movieId = this.movieId.replace(/_/g, ' ').replace(/\[/g, '(').replace(/\]/g, ')');
       this.imdb.getMoviePoster(this.movieId, 'desktop').subscribe(data => { this.moviePoster = data.image_url; });
       this.imdb.getMovieById(this.movieId).subscribe(data => { this.movieDetails = data });
-      this.imdb.getMovieSynopsis(this.movieId).subscribe(data => { this.movieSynopsis = data });
+      this.imdb.getMovieSynopsis(this.movieId).subscribe(data => { this.movieSynopsis = data }, err => { this.movieSynopsis[0] = 'Plot Not Available' });
     });
   }
 

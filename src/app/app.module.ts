@@ -11,6 +11,8 @@ import { MovieComponent } from './movie.component';
 import { SeriesComponent } from './series.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PlotModalComponent } from './plot-modal.component';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HomeComponent,
     ListComponent,
     MovieComponent,
-    SeriesComponent
+    SeriesComponent,
+    PlotModalComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +31,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     NgbModule.forRoot()
   ],
-  providers: [{ provide: UrlSerializer, useClass: CustomUrlSerializer }],
-  bootstrap: [AppComponent]
+  providers: [{ provide: UrlSerializer, useClass: CustomUrlSerializer }, NgbActiveModal],
+  bootstrap: [AppComponent],
+  entryComponents: [PlotModalComponent]
 })
 export class AppModule { }

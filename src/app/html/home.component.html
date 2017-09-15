@@ -28,9 +28,9 @@
           <div *ngFor="let movie of movies" class="product">
             <div class="inner-product">
               <div class="figure-image">
-                <a [routerLink]="['/movie', movie.MovieID]"><img src="{{movie.image}}" alt="Game 1"></a>
+                <a [routerLink]="['/movie', movie.MovieID]"><img src="{{movie.image}}" onError="this.src='assets/images/placeholder.png';" alt="Game 1"></a>
               </div>
-              <h3 class="product-title"><a href="#">{{movie?.MovieID}}</a></h3>
+              <h3 class="product-title"><a [routerLink]="['/movie', movie.MovieID]">{{movie?.MovieID}}</a></h3>
               <small class="price">
                 <ng-template #t let-fill="fill">
                       <span *ngIf="fill === 100" class="star full">★</span>
@@ -41,7 +41,7 @@
                 </ng-template>   
                 <ngb-rating [(rate)]="movie.Rating.Rating" [starTemplate]="t" [readonly]="true"></ngb-rating>
               </small>
-              <a href="#" class="button muted">Read Details</a>
+              <a class="button muted" (click)='readMovieDetails(movie.MovieID)'>Read Details</a>
             </div>
           </div>
           <!-- .product -->
@@ -64,7 +64,7 @@
               <div class="figure-image">
                 <a [routerLink]="['/series', tv.MovieID]"><img src="assets/images/ww.jpg" alt="Game 1"></a>
               </div>
-              <h3 class="product-title"><a href="#">{{tv.MovieID}}</a></h3>
+              <h3 class="product-title"><a [routerLink]="['/series', tv.MovieID]">{{tv.MovieID}}</a></h3>
               <small class="price">
                 <ng-template #t let-fill="fill">
                       <span *ngIf="fill === 100" class="star full">★</span>
@@ -75,7 +75,7 @@
                 </ng-template>   
                 <ngb-rating [(rate)]="tv.rating.Rating" [starTemplate]="t" [readonly]="true"></ngb-rating>
               </small>
-              <a href="#" class="button muted">Read Details</a>
+              <a class="button muted">Read Details</a>
             </div>
           </div>
           <!-- .product -->

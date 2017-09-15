@@ -8,6 +8,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
+import { Router, NavigationEnd } from '@angular/router';
+
 declare var particlesJS: any;
 @Component({
   selector: 'app-root',
@@ -22,7 +24,7 @@ export class AppComponent implements OnInit {
   searchValue: any;
   searchTerm$ = new Subject<string>();
   searchType$ = new Subject<string>();
-  constructor(private imdb: ImdbService) {
+  constructor(private imdb: ImdbService, private router: Router) {
     this.search();
   }
 
@@ -51,6 +53,12 @@ export class AppComponent implements OnInit {
     this.imdb.search(this.searchTerm$, this.searchType$, 10).subscribe((data) => { this.searchValue = data }, (err) => { console.log(err), this.search(); });
   }
   ngOnInit() {
+    this.router.events.subscribe((evt) => {
+      if (!(evt instanceof NavigationEnd)) {
+        return;
+      }
+      window.scrollTo(0, 0)
+    });
 
     particlesJS('particles-js', {
       "particles": {
