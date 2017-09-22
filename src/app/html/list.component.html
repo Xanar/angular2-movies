@@ -10,33 +10,17 @@
       <div class="filter-bar">
         <div class="filter">
           <span>
-									<label>Sort by:</label>
-									<select name="#">
-										<option value="#">Popularity</option>
-										<option value="#">Highest Rating</option>
-									</select>
-								</span>
-          <span>
-									<label>Genre</label>
-									<select name="#">
-										<option value="#">Show All</option>
-										<option value="#">Action</option>
-										<option value="#">Racing</option>
-										<option value="#">Strategy</option>
-									</select>
-								</span>
-          <span>
 									<label>Show:</label>
-									<select name="#">
-										<option value="#">8</option>
-										<option value="#">16</option>
-										<option value="#">24</option>
+									<select name="#" [(ngModel)]="pageSize" (change)="onShowChange($event.target.value)">
+										<option value="8">8</option>
+										<option value="16">16</option>
+										<option value="24">24</option>
 									</select>
-								</span>
+					</span>
         </div>
         <!-- .filter -->
         <div class="pagination">
-          <ngb-pagination [collectionSize]="80" [pageSize]="8" [maxSize]="5" aria-label="Default pagination"></ngb-pagination>
+          <ngb-pagination  [(page)]="page" [collectionSize]="totalPages" [maxSize]="5" [pageSize]="pageSize"  aria-label="Default pagination" (pageChange)="loadPage($event)"></ngb-pagination>
         </div>
         <!-- .pagination -->
       </div>
@@ -75,7 +59,7 @@
       </div>
       <div class="pagination-bar">
         <div class="pagination">
-          <ngb-pagination [collectionSize]="80" [pageSize]="8" [maxSize]="5" aria-label="Default pagination"></ngb-pagination>
+          <ngb-pagination  [(page)]="page" [collectionSize]="totalPages" [maxSize]="5" [pageSize]="pageSize"  aria-label="Default pagination" (pageChange)="loadPage($event)"></ngb-pagination>
         </div>
         <!-- .pagination -->
       </div>

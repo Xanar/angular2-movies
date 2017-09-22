@@ -136,7 +136,7 @@ li.dropdown-item:hover {
   background-image: -moz-linear-gradient(top, #59aaf4, #338cdf);
   background-image: -ms-linear-gradient(top, #59aaf4, #338cdf);
   background-image: -o-linear-gradient(top, #59aaf4, #338cdf);
-  background-image: linear-gradient(top, #59aaf4, #338cdf);
+  /*background-image: linear-gradient(top, #59aaf4, #338cdf);*/
   -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), 0 1px rgba(0, 0, 0, 0.08);
   -moz-box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), 0 1px rgba(0, 0, 0, 0.08);
   -ms-box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), 0 1px rgba(0, 0, 0, 0.08);
@@ -198,4 +198,24 @@ li.dropdown-item:hover {
 .product-list .product .figure-image img {
   min-height: 274px;
   max-height: 400px;
+}
+
+.dropdown-toggle::after {
+  border: 0 !important;
+}
+
+.site-header>.container {
+  pointer-events: none;
+}
+
+.site-header>.container>#branding {
+  pointer-events: visible;
+}
+
+.site-header>.container .login-button {
+  pointer-events: visible;
+}
+
+.site-header>.container .main-navigation {
+  pointer-events: visible;
 }

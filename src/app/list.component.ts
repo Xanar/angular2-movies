@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscriber } from 'rxjs/Subscriber';
 import 'rxjs/add/operator/map';
 import { ImdbService } from './imdb.services'
@@ -8,16 +8,6 @@ import { Tiles } from './objects';
 import { PlotModalComponent } from './plot-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-// const MOVIES: Tiles[] = [
-//   { MovieID: "Wonder Woman (2017)", rating: { Rating: 9.5 }, image: '' },
-//   { MovieID: "The Mummy (2017)", rating: { Rating: 5.5 }, image: '' },
-//   { MovieID: "50 Shades Darker", rating: { Rating: 7.5 }, image: '' },
-//   { MovieID: "Annabelle: Creation", rating: { Rating: 8.5 }, image: '' },
-//   { MovieID: "Wonder Woman (2017)", rating: { Rating: 9.5 }, image: '' },
-//   { MovieID: "The Mummy (2017)", rating: { Rating: 5.5 }, image: '' },
-//   { MovieID: "50 Shades Darker", rating: { Rating: 7.5 }, image: '' },
-//   { MovieID: "Annabelle: Creation", rating: { Rating: 8.5 }, image: '' }
-// ];
 
 @Component({
   selector: 'app-list',
@@ -28,23 +18,61 @@ export class ListComponent {
   tiles: any;
   genre = '';
   request: any;
-  constructor(private route: ActivatedRoute, private imdb: ImdbService, private modalService: NgbModal) { }
+  page: any;
+  previousPage: any;
+  totalPages = 1;
+  pageSize = 8;
+  currentPage: any
+  firstLoad = false;
+
+  constructor(private router: Router, private route: ActivatedRoute, private imdb: ImdbService, private modalService: NgbModal) {
+    this.firstLoad = true;
+  }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      // Defaults to 1 if no query param provided.
+      this.currentPage = +params['page'] || 1;
+      this.pageSize = +params['size'] || 8;
+    })
     this.route.params.subscribe(params => {
       this.tiles = [];
       this.genre = '';
-      if(this.request instanceof Subscriber)
+      if (this.request instanceof Subscriber)
         this.request.unsubscribe();
       if (params['genre'].indexOf('all_movies') != -1) {
         this.genre = 'All Movies';
-        this.request = this.imdb.getMovies('Action', 1, 8).subscribe(data => { this.tiles = data, this.getPosters(); });
+        this.request = this.imdb.getMovies('Action', this.currentPage, this.pageSize).subscribe(
+          data => {
+            this.tiles = data.results,
+              this.totalPages = data.total,
+              this.getPosters(),
+              this.firstLoad = false,
+              this.page = this.currentPage
+          }
+        );
       } else if (params['genre'].indexOf('tv_series') != -1) {
         this.genre = 'TV Series';
-        this.request = this.imdb.getMovies('Action', 1, 8).subscribe(data => { this.tiles = data, this.getPosters(); });
+        this.request = this.imdb.getMovies('Action', this.currentPage, this.pageSize).subscribe(
+          data => {
+            this.tiles = data.results,
+              this.totalPages = data.total,
+              this.getPosters(),
+              this.firstLoad = false,
+              this.page = this.currentPage
+          }
+        );
       } else {
-        this.genre = params['genre'].charAt(0).toUpperCase() + params['genre'].slice(1);;
-        this.request = this.imdb.getMovies(this.genre, 1, 8).subscribe(data => { this.tiles = data, this.getPosters(); });
+        this.genre = params['genre'].charAt(0).toUpperCase() + params['genre'].slice(1);
+        this.request = this.imdb.getMovies(this.genre, this.currentPage, this.pageSize).subscribe(
+          data => {
+            this.tiles = data.results,
+              this.totalPages = data.total,
+              this.getPosters(),
+              this.firstLoad = false,
+              this.page = this.currentPage
+          }
+        );
       }
     });
   }
@@ -69,6 +97,51 @@ export class ListComponent {
         modalRef.componentInstance.plot = "Plot Not Available"
       }
       );
+  }
+
+  onShowChange(newPageSize) {
+    this.pageSize = newPageSize;
+    this.router.navigate([], { queryParams: { page: this.page, size: this.pageSize } });
+    this.getMovieList();
+  }
+
+  loadPage(page: number) {
+    if (page !== this.previousPage && !this.firstLoad) {
+      this.tiles = [];
+      this.router.navigate([], { queryParams: { page: page, size: this.pageSize } });
+      this.previousPage = page;
+      this.getMovieList();
+    }
+  }
+
+  getMovieList() {
+    if (this.request instanceof Subscriber)
+      this.request.unsubscribe();
+    if (this.genre.indexOf('All Movies') != -1) {
+      this.request = this.imdb.getMovies('Action', this.page, this.pageSize).subscribe(
+        data => {
+          this.tiles = data.results,
+            this.totalPages = data.total,
+            this.getPosters()
+        }
+      );
+    } else if (this.genre.indexOf('TV Series') != -1) {
+      this.request = this.imdb.getMovies('Action', this.page, this.pageSize).subscribe(
+        data => {
+          this.tiles = data.results,
+            this.totalPages = data.total,
+            this.getPosters()
+        }
+      );
+    } else {
+      this.request = this.imdb.getMovies(this.genre, this.page, this.pageSize).subscribe(
+        data => {
+          this.tiles = data.results,
+            this.totalPages = data.total,
+            this.getPosters()
+        }
+      );
+    }
   }
 
 }

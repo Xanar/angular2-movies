@@ -16,16 +16,15 @@
       </div>
       <!-- .right-section -->
 
-      <div class="main-navigation">
-        <button class="toggle-menu"><i class="fa fa-bars"></i></button>
+      <div class="main-navigation" ngbDropdown  #mobileDropDown="ngbDropdown">
+        <button class="toggle-menu" ngbDropdownToggle><i class="fa fa-bars"></i></button>
         <ul class="menu">
-          <li class="menu-item home current-menu-item"><a routerLink="/home"><i class="icon-home"></i></a></li>
-          <li class="menu-item"><a [routerLink]="['/list', 'all_movies']">Movies</a></li>
-          <li class="menu-item"><a [routerLink]="['/list', 'tv_series']">TV Series</a></li>
-          <li class="menu-item"><a [routerLink]="['/list', 'action']">Action</a></li>
-          <li class="menu-item"><a [routerLink]="['/list', 'comedy']">Comedy</a></li>
-          <li class="menu-item"><a [routerLink]="['/list', 'sports']">Sports</a></li>
-          <li class="menu-item"><a [routerLink]="['/list', 'documentaries']">Documentaries</a></li>
+          <li class="menu-item home" [ngClass]="{'current-menu-item': selectedNavItem == 'home'}" (click)="navListClick($event, 'home')"><a routerLink="/home"><i class="icon-home"></i></a></li>
+          <li class="menu-item" [ngClass]="{'current-menu-item': selectedNavItem == 'all_movies'}" (click)="navListClick($event, 'all_movies')"><a [routerLink]="['/list', 'all_movies']">Movies</a></li>
+          <li class="menu-item" [ngClass]="{'current-menu-item': selectedNavItem == 'tv_series'}" (click)="navListClick($event, 'tv_series')"><a [routerLink]="['/list', 'tv_series']">TV Series</a></li>
+          <li class="menu-item" [ngClass]="{'current-menu-item': selectedNavItem == 'action'}" (click)="navListClick($event, 'action')"><a [routerLink]="['/list', 'action']">Action</a></li>
+          <li class="menu-item" [ngClass]="{'current-menu-item': selectedNavItem == 'comedy'}" (click)="navListClick($event, 'comedy')"><a [routerLink]="['/list', 'comedy']">Comedy</a></li>
+          <li class="menu-item" [ngClass]="{'current-menu-item': selectedNavItem == 'sports'}" (click)="navListClick($event, 'sports')"><a [routerLink]="['/list', 'sports']">Sports</a></li>
         </ul>
         <!-- .menu -->
         <div class="search-form">
@@ -38,7 +37,7 @@
             </label>
           </div>
           <label><img src="assets/images/icon-search.png"></label>
-          <input type="text" placeholder="Search..." (input)="searchOptions($event)" #search>
+          <input type="text" placeholder="Search..." (input)="searchOptions($event,dropDown)" #search>
           <div ngbDropdown class="d-inline-block dropDwn" #dropDown="ngbDropdown">
             <div ngbDropdownMenu aria-labelledby="dropdownBasic2" id="searchDropdown" class="customScroll">
               <li class="dropdown-item" *ngFor="let sval of searchValue" [routerLink]="['/movie', sval.MovieID]" (click)="search.value='';"
@@ -48,7 +47,21 @@
         </div>
         <!-- .search-form -->
 
-        <div class="mobile-navigation"></div>
+        <!--<div class="mobile-navigation">-->
+          
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic2" class="mobile-navigation">
+              <ul class="menu">
+                <li class="menu-item home current-menu-item"><a routerLink="/home"><i class="icon-home"></i></a></li>
+                <li class="menu-item"><a [routerLink]="['/list', 'all_movies']">Movies</a></li>
+                <li class="menu-item"><a [routerLink]="['/list', 'tv_series']">TV Series</a></li>
+                <li class="menu-item"><a [routerLink]="['/list', 'action']">Action</a></li>
+                <li class="menu-item"><a [routerLink]="['/list', 'comedy']">Comedy</a></li>
+                <li class="menu-item"><a [routerLink]="['/list', 'sports']">Sports</a></li>
+                <li class="menu-item"><a [routerLink]="['/list', 'documentaries']">Documentaries</a></li>
+              </ul>
+            </div>
+          
+        <!--</div>-->
         <!-- .mobile-navigation -->
       </div>
       <!-- .main-navigation -->
@@ -127,4 +140,4 @@
 
 
 <!-- Movie / Tv Plot Modal -->
-<template ngbModalContainer></template>
+<ng-template ngbModalContainer></ng-template>

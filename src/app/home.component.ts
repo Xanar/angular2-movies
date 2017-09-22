@@ -31,7 +31,7 @@ export class HomeComponent {
   series = SERIES;
 
   constructor(private imdb: ImdbService, private modalService: NgbModal) {
-    imdb.getMovies('Action', 1, 4).subscribe(data => { this.movies = data; this.getPosters(); });
+    imdb.getMovies('Action', 1, 4).subscribe(data => { this.movies = data.results; this.getPosters(); });
   }
 
   getPosters() {

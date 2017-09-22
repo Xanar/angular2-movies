@@ -8,7 +8,7 @@ import 'rxjs/add/operator/switchMap';
 
 @Injectable()
 export class ImdbService {
-  _baseUrl = "https://imdb-swagger.herokuapp.com/v1";
+  private _baseUrl = "https://imdb-swagger.herokuapp.com/v1";
   constructor(
     private http: Http
   ) { }
@@ -44,6 +44,16 @@ export class ImdbService {
   }
   getMoviePoster(movieId, device) {
     return this.http.get(this._baseUrl + '/movie/' + movieId + '/getMoviePoster?device=' + device)
+      .map((res: Response) => res.json());
+  }
+
+  getMovieCast(movieId) {
+    return this.http.get(this._baseUrl + '/movie/' + movieId + '/getTopBilledCast')
+      .map((res: Response) => res.json());
+  }
+
+  getMovieCrewInfo(movieId, role) {
+    return this.http.get(this._baseUrl + '/movie/' + movieId + '/getCrewInfo?role=' + role)
       .map((res: Response) => res.json());
   }
 }
